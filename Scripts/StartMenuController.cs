@@ -7,6 +7,8 @@ public class StartMenuController : MonoBehaviour {
     public TweenScale StartPanelTween;
     public TweenScale LoginPanelTween;
     public TweenScale RegisterPanelTween;
+    public TweenScale ServerListPanelTween;
+
 
     public UILabel UserNameLabelStartPanel;
 
@@ -25,16 +27,69 @@ public class StartMenuController : MonoBehaviour {
     public string PasswordRegisterPanel;
     public string RePasswordRegisterPanel;
 
+    public GameObject ServerItemBusy;
+    public GameObject ServerItemFree;
+
+    // UIGrid 是个脚本 ？
+    public UIGrid ServerListGrid;
+    private bool isInitServerList = false;
+
+
+    private void Start()
+    {
+        InitServerList();
+    }
+
+    /// <summary>
+    /// 初始化服务器列表 把列表信息加入到grid中 
+    /// </summary>
+    public void InitServerList()
+    {
+        if(!isInitServerList)
+        {
+            // 1. 连接一个IP地址，获取服务器列表信息 TODO
+            // 2. 将信息初始化成控件再本地
+
+            // 这里先随机生成
+            GameObject go = null;
+            for (int i = 0; i < 20; ++i)
+            {
+                int count = Random.Range(0, 100);
+                string name = (i + 1) + "区 马达加斯加";
+                string ip = "127.0.0.1";
+
+                if(count > 50)
+                {
+                    go = NGUITools.AddChild(ServerListGrid.gameObject, ServerItemBusy);
+                }
+                else
+                {
+                    go = NGUITools.AddChild(ServerListGrid.gameObject, ServerItemFree);
+                }
+                ServerProperty serverItem = go.GetComponent<ServerProperty>();
+                serverItem.Count = count;
+                serverItem.Name = name;
+                serverItem.Ip = ip;
+                //ServerListGrid.gameObject.AddChild(go.transform);
+            }
+            ServerListGrid.repositionNow = true;
+            ServerListGrid.Reposition();
+            isInitServerList = true;
+        }
+
+
+
+
+    }
+
+
     /// <summary>
     /// 开始界面的姓名按钮
     /// </summary>
     public void OnLoginShowClicked()
     {
         // 进入登陆界面
-        StartPanelTween.PlayReverse();
-        StartCoroutine(HidePanel(StartPanelTween.gameObject));
-        LoginPanelTween.PlayForward();
-        LoginPanelTween.gameObject.SetActive(true);
+        FromAPanel2BPanel(StartPanelTween, LoginPanelTween);
     }
     /// <summary>
     /// 开始界面的服务器名按钮
@@ -42,6 +97,10 @@ public class StartMenuController : MonoBehaviour {
     public void OnServerListShowClicked()
     {
         // 选择服务器 进入服务器列表界面 TODO
+        FromAPanel2BPanel(StartPanelTween, ServerListPanelTween);
+
+        // 初始化服务器列表 在此函数start的时候做吧
+
     }
     /// <summary>
     /// 开始界面的开始游戏按钮
@@ -126,7 +185,7 @@ public class StartMenuController : MonoBehaviour {
     {
         APanel.PlayReverse();
         StartCoroutine(HidePanel(APanel.gameObject));
-        BPanel.PlayForward();
         BPanel.gameObject.SetActive(true);
+        BPanel.PlayForward();
     }
 }
