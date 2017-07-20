@@ -11,6 +11,7 @@ public class StartMenuController : MonoBehaviour {
 
 
     public UILabel UserNameLabelStartPanel;
+    public UILabel ServerNameLabelStartPanel;
 
     public UIInput UserNameInputLoginPanel;
     public UIInput PasswordInputLoginPanel;
@@ -29,10 +30,15 @@ public class StartMenuController : MonoBehaviour {
 
     public GameObject ServerItemBusy;
     public GameObject ServerItemFree;
+    public GameObject SelectedServerItem;
+
 
     // UIGrid 是个脚本 ？
     public UIGrid ServerListGrid;
     private bool isInitServerList = false;
+
+
+    private ServerProperty selectedServerProperty;
 
 
     private void Start()
@@ -70,16 +76,11 @@ public class StartMenuController : MonoBehaviour {
                 serverItem.Count = count;
                 serverItem.Name = name;
                 serverItem.Ip = ip;
-                //ServerListGrid.gameObject.AddChild(go.transform);
             }
             ServerListGrid.repositionNow = true;
             ServerListGrid.Reposition();
             isInitServerList = true;
         }
-
-
-
-
     }
 
 
@@ -98,8 +99,9 @@ public class StartMenuController : MonoBehaviour {
     {
         // 选择服务器 进入服务器列表界面 TODO
         FromAPanel2BPanel(StartPanelTween, ServerListPanelTween);
-
         // 初始化服务器列表 在此函数start的时候做吧
+        selectedServerProperty = SelectedServerItem.GetComponent<ServerProperty>();
+
 
     }
     /// <summary>
@@ -179,13 +181,43 @@ public class StartMenuController : MonoBehaviour {
     /// <summary>
     /// 使用A面板的退出动画 B面板的进入动画 进入B面板
     /// </summary>
-    /// <param name="APanel"></param>  
-    /// <param name="BPanel"></param>  
+    /// <param name="APanel">A面板要有消失的动画</param>  
+    /// <param name="BPanel">B面板要有出现的动画</param>  
     private void FromAPanel2BPanel(TweenScale APanel, TweenScale BPanel)
     {
         APanel.PlayReverse();
         StartCoroutine(HidePanel(APanel.gameObject));
         BPanel.gameObject.SetActive(true);
         BPanel.PlayForward();
+    }
+
+    /// <summary>
+    /// 处理在 serverlist 中点击事件
+    /// </summary>
+    /// <param name="serverGo">点击的serverItem</param>
+    public void OnSelectingServerItem(GameObject serverGo)
+    {
+        selectedServerProperty = serverGo.GetComponent<ServerProperty>();
+        // 改变sprite样式： 名字变了就 sprite也变了 
+        SelectedServerItem.gameObject.GetComponent<UISprite>().spriteName = serverGo.GetComponent<UISprite>().spriteName;
+        SelectedServerItem.gameObject.GetComponent<UIButton>().normalSprite = serverGo.GetComponent<UISprite>().spriteName;
+        // 改变uilabel显示的区的名字
+        SelectedServerItem.transform.Find("servername").GetComponent<UILabel>().text = selectedServerProperty.Name;
+        SelectedServerItem.transform.Find("servername").GetComponent<UILabel>().color = serverGo.transform.Find("servername").GetComponent<UILabel>().color;
+    }
+    /// <summary>
+    /// 选择服务器界面 点击当前选中的服务器触发的事件
+    /// </summary>
+    public void OnSelectedItemServerListClicked()
+    {
+        FromAPanel2BPanel(ServerListPanelTween, StartPanelTween);
+        ServerNameLabelStartPanel.text = selectedServerProperty.Name;
+    }
+    /// <summary>
+    /// 选择服务器界面 点击关闭按钮
+    /// </summary>
+    public void OnClosedServerListClicked()
+    {
+        FromAPanel2BPanel(ServerListPanelTween, StartPanelTween);
     }
 }

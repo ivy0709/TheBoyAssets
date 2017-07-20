@@ -21,4 +21,14 @@ public class ServerProperty : MonoBehaviour {
             transform.Find("servername").GetComponent<UILabel>().text = value;
         }
     }
+
+    private void Start()
+    {
+        Name = servername;
+    }
+
+    public void OnPressed()
+    {
+        transform.root.SendMessage("OnSelectingServerItem", this.gameObject);
+    }
 }
