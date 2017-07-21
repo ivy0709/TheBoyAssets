@@ -9,6 +9,9 @@ public class StartMenuController : MonoBehaviour {
     public TweenScale RegisterPanelTween;
     public TweenScale ServerListPanelTween;
 
+    public TweenPosition StartPanelTweenPosition;
+    public TweenPosition SelectCharacterTweenPosition;
+
 
     public UILabel UserNameLabelStartPanel;
     public UILabel ServerNameLabelStartPanel;
@@ -44,6 +47,7 @@ public class StartMenuController : MonoBehaviour {
     private void Start()
     {
         InitServerList();
+        selectedServerProperty = SelectedServerItem.GetComponent<ServerProperty>();
     }
 
     /// <summary>
@@ -90,7 +94,7 @@ public class StartMenuController : MonoBehaviour {
     public void OnLoginShowClicked()
     {
         // 进入登陆界面
-        FromAPanel2BPanel(StartPanelTween, LoginPanelTween);
+        FromAPanel2BPanelWithScaleTween(StartPanelTween, LoginPanelTween);
     }
     /// <summary>
     /// 开始界面的服务器名按钮
@@ -98,11 +102,7 @@ public class StartMenuController : MonoBehaviour {
     public void OnServerListShowClicked()
     {
         // 选择服务器 进入服务器列表界面 TODO
-        FromAPanel2BPanel(StartPanelTween, ServerListPanelTween);
-        // 初始化服务器列表 在此函数start的时候做吧
-        selectedServerProperty = SelectedServerItem.GetComponent<ServerProperty>();
-
-
+        FromAPanel2BPanelWithScaleTween(StartPanelTween, ServerListPanelTween);
     }
     /// <summary>
     /// 开始界面的开始游戏按钮
@@ -110,7 +110,10 @@ public class StartMenuController : MonoBehaviour {
     public void OnEnterGameClicked()
     {
         // 1.检查用户名和密码 连接服务器 TODO
+
+
         // 2.进入选角色界面 TODO
+        FromAPanel2BPanelWithScaleTween(StartPanelTweenPosition, SelectCharacterTweenPosition);
     }
 
 
@@ -122,7 +125,7 @@ public class StartMenuController : MonoBehaviour {
         // 存下数据
         UserNameLoginPanel = UserNameInputLoginPanel.value;
         PasswordLoginPanel = PasswordInputLoginPanel.value;
-        FromAPanel2BPanel(LoginPanelTween, StartPanelTween);
+        FromAPanel2BPanelWithScaleTween(LoginPanelTween, StartPanelTween);
         // 让start界面的账号更新
         UserNameLabelStartPanel.text = UserNameLoginPanel;
         return;
@@ -132,7 +135,7 @@ public class StartMenuController : MonoBehaviour {
     /// </summary>
     public void OnRegisterShowClicked()
     {
-        FromAPanel2BPanel(LoginPanelTween, RegisterPanelTween);
+        FromAPanel2BPanelWithScaleTween(LoginPanelTween, RegisterPanelTween);
     }
     /// <summary>
     /// 登录界面的关闭按钮
@@ -140,7 +143,7 @@ public class StartMenuController : MonoBehaviour {
     public void OnCloseLoginClicked()
     {
         // 退出Login 返回到Start
-        FromAPanel2BPanel(LoginPanelTween, StartPanelTween);
+        FromAPanel2BPanelWithScaleTween(LoginPanelTween, StartPanelTween);
     }
     /// <summary>
     /// 注册界面的取消按钮
@@ -148,7 +151,7 @@ public class StartMenuController : MonoBehaviour {
     public void OnCancelRegisterClicked()
     {
         // 返回start界面
-        FromAPanel2BPanel(RegisterPanelTween, StartPanelTween);
+        FromAPanel2BPanelWithScaleTween(RegisterPanelTween, StartPanelTween);
     }
     /// <summary>
     /// 注册界面的注册并登录按钮
@@ -160,7 +163,7 @@ public class StartMenuController : MonoBehaviour {
         UserNameRegisterPanel = UserNameInputRegisterPanel.value;
         PasswordRegisterPanel = PasswordInputRegisterPanel.value;
         // 3. 返回start界面
-        FromAPanel2BPanel(RegisterPanelTween, StartPanelTween);
+        FromAPanel2BPanelWithScaleTween(RegisterPanelTween, StartPanelTween);
         // 4. start界面显示账号名字
         UserNameLabelStartPanel.text = UserNameInputRegisterPanel.value;
     }
@@ -183,15 +186,25 @@ public class StartMenuController : MonoBehaviour {
     /// </summary>
     /// <param name="APanel">A面板要有消失的动画</param>  
     /// <param name="BPanel">B面板要有出现的动画</param>  
-    private void FromAPanel2BPanel(TweenScale APanel, TweenScale BPanel)
+    private void FromAPanel2BPanelWithScaleTween(UITweener APanel, UITweener BPanel)
     {
         APanel.PlayReverse();
         StartCoroutine(HidePanel(APanel.gameObject));
         BPanel.gameObject.SetActive(true);
         BPanel.PlayForward();
     }
-
-    /// <summary>
+//     /// <summary>
+//     /// 使用A面板的退出动画 B面板的进入动画 进入B面板
+//     /// </summary>
+//     /// <param name="APanel">A面板要有消失的动画</param>  
+//     /// <param name="BPanel">B面板要有出现的动画</param>  
+//     private void FromAPanel2BPanelWithPositionTween(TweenScale APanel, TweenScale BPanel)
+//     {
+//         APanel.PlayReverse();
+//         StartCoroutine(HidePanel(APanel.gameObject));
+//         BPanel.gameObject.SetActive(true);
+//         BPanel.PlayForward();
+//        /// <summary>
     /// 处理在 serverlist 中点击事件
     /// </summary>
     /// <param name="serverGo">点击的serverItem</param>
@@ -204,13 +217,14 @@ public class StartMenuController : MonoBehaviour {
         // 改变uilabel显示的区的名字
         SelectedServerItem.transform.Find("servername").GetComponent<UILabel>().text = selectedServerProperty.Name;
         SelectedServerItem.transform.Find("servername").GetComponent<UILabel>().color = serverGo.transform.Find("servername").GetComponent<UILabel>().color;
+
     }
     /// <summary>
     /// 选择服务器界面 点击当前选中的服务器触发的事件
     /// </summary>
     public void OnSelectedItemServerListClicked()
     {
-        FromAPanel2BPanel(ServerListPanelTween, StartPanelTween);
+        FromAPanel2BPanelWithScaleTween(ServerListPanelTween, StartPanelTween);
         ServerNameLabelStartPanel.text = selectedServerProperty.Name;
     }
     /// <summary>
@@ -218,6 +232,6 @@ public class StartMenuController : MonoBehaviour {
     /// </summary>
     public void OnClosedServerListClicked()
     {
-        FromAPanel2BPanel(ServerListPanelTween, StartPanelTween);
+        FromAPanel2BPanelWithScaleTween(ServerListPanelTween, StartPanelTween);
     }
 }
