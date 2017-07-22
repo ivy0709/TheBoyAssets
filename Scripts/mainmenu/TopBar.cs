@@ -23,5 +23,31 @@ public class TopBar : MonoBehaviour {
         coinPlusBtn = transform.Find("bg_coin/Button").GetComponent<UIButton>();
         diamondPlusBtn = transform.Find("bg_diamond/Button").GetComponent<UIButton>();
     }
+    private void Start()
+    {
+        PlayerInfo._instance.OnPlayerInfoChanged += OnPlayerInfoChanged;
+    }
+    private void Ondestroy()
+    {
+        PlayerInfo._instance.OnPlayerInfoChanged -= OnPlayerInfoChanged;
+    }
 
+    private void OnPlayerInfoChanged(InfoType type)
+    {
+        PlayerInfo playerInfo = PlayerInfo._instance;
+        if (type == InfoType.Coin)
+        {
+            coinValueLabel.text = playerInfo.Coin.ToString();
+        }
+        else if (type == InfoType.Diamond)
+        {
+            diamondValueLabel.text = playerInfo.Diamond.ToString();
+        }
+        else if (type == InfoType.All)
+        {
+            coinValueLabel.text = playerInfo.Coin.ToString();
+            diamondValueLabel.text = playerInfo.Diamond.ToString();
+        }
+        return;
+    }
 }

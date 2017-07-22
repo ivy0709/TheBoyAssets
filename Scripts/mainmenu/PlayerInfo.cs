@@ -168,8 +168,8 @@ public class PlayerInfo : MonoBehaviour {
     private float restoreEnergyInterval = 60.0f;
     private float restoreToughenInterval = 60.0f;
 
-    public int energyMax = 100;
-    public int toughenMax = 50;
+    public  int energyMax = 100;
+    public  int toughenMax = 50;
 
 
 
@@ -182,6 +182,10 @@ public class PlayerInfo : MonoBehaviour {
     private void Awake()
     {
         _instance = this;
+    }
+
+    private void Start()
+    {
         Init();
     }
 
@@ -190,34 +194,35 @@ public class PlayerInfo : MonoBehaviour {
     {
         energyTimer += Time.deltaTime;
         // 一分钟恢复一格
-        if(energyTimer >= restoreEnergyInterval)
+        if (Energy < energyMax)
         {
-            if (Energy >= energyMax)
-            {
-                energyTimer = 0.0f;
-            }
-            else
+            if (energyTimer >= restoreEnergyInterval)
             {
                 Energy++;
                 OnPlayerInfoChanged(InfoType.Energy);
                 energyTimer -= restoreEnergyInterval;
             }
         }
-
-        toughenTimer += Time.deltaTime;
-        if (toughenTimer >= restoreToughenInterval)
+        else
         {
-            if (Toughen >= toughenMax)
-            {
-                toughenTimer = 0.0f;
-            }
-            else
+            energyTimer = 0.0f;
+        }
+        
+        toughenTimer += Time.deltaTime;
+        if (Toughen < toughenMax)
+        {
+            if (toughenTimer >= restoreToughenInterval)
             {
                 Toughen++;
                 OnPlayerInfoChanged(InfoType.Toughen);
                 toughenTimer -= restoreToughenInterval;
             }
         }
+        else
+        {
+            toughenTimer = 0.0f;
+        }
+
     }
 
     #endregion

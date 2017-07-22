@@ -42,11 +42,54 @@ public class PlayerBar : MonoBehaviour {
         energyPlusBtn = transform.Find("energyPlusBtn").GetComponent<UIButton>();
         toughtenPlusBtn = transform.Find("toughenPlusBtn").GetComponent<UIButton>();
 
+        return;
     }
 
-    private void Update()
+    private void Start()
     {
-        
+        PlayerInfo._instance.OnPlayerInfoChanged += OnPlayerInfoChanged;
     }
+    private void Ondestroy()
+    {
+        PlayerInfo._instance.OnPlayerInfoChanged -= OnPlayerInfoChanged;
+    }
+
+    private void OnPlayerInfoChanged(InfoType type)
+    {
+        PlayerInfo playerInfo = PlayerInfo._instance;
+        if (type == InfoType.Name)
+        {
+            playerNameLabel.text = playerInfo.Name;
+        }
+        else if (type == InfoType.HeadPic)
+        {
+            headSprite.name = playerInfo.HeadPic;
+        }
+        else if (type == InfoType.Level)
+        {
+            levelLabel.text = playerInfo.Level.ToString();
+        }
+        else if (type == InfoType.Energy)
+        {
+            energyValueLabel.text = playerInfo.Energy + "/" + playerInfo.energyMax;
+            energySlider.value = (float)playerInfo.Energy / (float)playerInfo.energyMax;
+        }
+        else if (type == InfoType.Toughen)
+        {
+            toughenValueLabel.text = playerInfo.Toughen + "/" + playerInfo.toughenMax;
+            toughenSlider.value = (float)playerInfo.Toughen / (float)playerInfo.toughenMax;
+        }
+        else if (type == InfoType.All)
+        {
+            headSprite.spriteName = playerInfo.HeadPic;
+            levelLabel.text = playerInfo.Level.ToString();
+            playerNameLabel.text = playerInfo.Name;
+            energyValueLabel.text = playerInfo.Energy + "/" + playerInfo.energyMax;
+            energySlider.value = (float)playerInfo.Energy / (float)playerInfo.energyMax;
+            toughenValueLabel.text = playerInfo.Toughen + "/" + playerInfo.toughenMax;
+            toughenSlider.value = (float)playerInfo.Toughen / (float)playerInfo.toughenMax;
+        }
+        return;
+    } 
 
 }
