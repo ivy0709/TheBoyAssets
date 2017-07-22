@@ -18,9 +18,6 @@ public enum InfoType
     All,
 }
 
-
-
-
 public class PlayerInfo : MonoBehaviour {
     // 姓名
     // 头像

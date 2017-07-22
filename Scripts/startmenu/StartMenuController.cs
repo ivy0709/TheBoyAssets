@@ -95,7 +95,6 @@ public class StartMenuController : MonoBehaviour {
     }
 
 
-
     /// <summary>
     /// 初始化服务器列表 把列表信息加入到grid中 
     /// </summary>
