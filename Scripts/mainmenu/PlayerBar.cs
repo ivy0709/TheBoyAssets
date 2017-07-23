@@ -22,7 +22,8 @@ public class PlayerBar : MonoBehaviour {
     private UIButton energyPlusBtn;
     [SerializeField]
     private UIButton toughtenPlusBtn;
-
+    [SerializeField]
+    private UIButton headBtn;
 
     private void Awake()
     {
@@ -41,6 +42,10 @@ public class PlayerBar : MonoBehaviour {
 
         energyPlusBtn = transform.Find("energyPlusBtn").GetComponent<UIButton>();
         toughtenPlusBtn = transform.Find("toughenPlusBtn").GetComponent<UIButton>();
+        headBtn = transform.Find("headBtn").GetComponent<UIButton>();
+
+        EventDelegate ed = new EventDelegate(this, "OnPlayerStatusShow");
+        headBtn.onClick.Add(ed);
 
         return;
     }
@@ -90,6 +95,9 @@ public class PlayerBar : MonoBehaviour {
             toughenSlider.value = (float)playerInfo.Toughen / (float)playerInfo.toughenMax;
         }
         return;
-    } 
-
+    }
+    private void OnPlayerStatusShow()
+    {
+        PlayerStatus._instance.OnPlayerStatusShow();
+    }
 }

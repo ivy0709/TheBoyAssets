@@ -201,6 +201,8 @@ public class PlayerInfo : MonoBehaviour {
                 Energy++;
                 OnPlayerInfoChanged(InfoType.Energy);
                 energyTimer -= restoreEnergyInterval;
+ 
+                
             }
         }
         else
@@ -242,8 +244,14 @@ public class PlayerInfo : MonoBehaviour {
         Diamond = 11111;
         Exp = 456;
         Coin = 22222;
-        Energy = 90;
+        Energy = 99;
         Toughen = 40;
         OnPlayerInfoChanged(InfoType.All);
+    }
+
+    public void OnPlayerNameChanged(string newName)
+    {
+        Name = newName;
+        OnPlayerInfoChanged(InfoType.Name);
     }
 }

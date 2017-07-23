@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class playerStatus : MonoBehaviour {
+public class PlayerStatus : MonoBehaviour {
+
+    public static PlayerStatus _instance;
+
 
     [SerializeField]
     private UISprite headSprite;
@@ -33,7 +36,10 @@ public class playerStatus : MonoBehaviour {
     [SerializeField]
     private UIButton chgNameBtn;
 
-
+    [SerializeField]
+    private UIButton sureChangeNameBtn;
+    [SerializeField]
+    private UIButton cancelChangeNameBtn;
 
     [SerializeField]
      private UILabel energyValueLabel;
@@ -50,8 +56,16 @@ public class playerStatus : MonoBehaviour {
     [SerializeField]
     private UILabel toughenRestoreAllLabel;
 
+    [SerializeField]
+    private UIInput newNameInput;
 
+    [SerializeField]
+    private TweenPosition positionTween;
 
+    [SerializeField]
+    private GameObject chgName;
+
+    #region the unity event
     private void Awake()
     {
         headSprite = transform.Find("headSprite").GetComponent<UISprite>();
@@ -69,6 +83,10 @@ public class playerStatus : MonoBehaviour {
 
         closeBtn = transform.Find("closebtn").GetComponent<UIButton>();
         chgNameBtn = transform.Find("changeNameBtn").GetComponent<UIButton>();
+        sureChangeNameBtn = transform.Find("changeName/sureBtn").GetComponent<UIButton>();
+        cancelChangeNameBtn = transform.Find("changeName/cancelBtn").GetComponent<UIButton>();
+
+        newNameInput = transform.Find("changeName/Input").GetComponent<UIInput>();
 
         energyValueLabel = transform.Find("energy/ValueLabel").GetComponent<UILabel>();
         energyRestorePartLabel = transform.Find("energy/partNameLabel/valueLabel").GetComponent<UILabel>();
@@ -77,6 +95,27 @@ public class playerStatus : MonoBehaviour {
         toughenValueLabel = transform.Find("toughen/ValueLabel").GetComponent<UILabel>();
         toughenRestorePartLabel = transform.Find("toughen/partNameLabel/valueLabel").GetComponent<UILabel>();
         toughenRestoreAllLabel = transform.Find("toughen/allNameLabel/valueLabel").GetComponent<UILabel>();
+
+        
+
+        positionTween = transform.GetComponent<TweenPosition>();
+
+        chgName = transform.Find("changeName").gameObject;
+
+        EventDelegate ed = new EventDelegate(this, "OnPlayerStatusCloseBtnClicked");
+        closeBtn.onClick.Add(ed);
+
+        EventDelegate ed1 = new EventDelegate(this, "OnChangNameBtnClicked");
+        chgNameBtn.onClick.Add(ed1);
+
+        EventDelegate ed2 = new EventDelegate(this, "OnSureChangeNameBtnClicked");
+        sureChangeNameBtn.onClick.Add(ed2);
+
+        EventDelegate ed3 = new EventDelegate(this, "OnCancelChangeNameBtnClicked");
+        cancelChangeNameBtn.onClick.Add(ed3);
+
+        _instance = this;
+
     }
 
     private void Start()
@@ -86,42 +125,16 @@ public class playerStatus : MonoBehaviour {
     }
     private void Update()
     {
-        if(PlayerInfo._instance.energyTimer > 0.0f)
-        {
-            int leftTime = 60 - (int)PlayerInfo._instance.energyTimer;
-
-
-            string leftTimeStr = leftTime < 10 ? "0" + leftTime.ToString() : leftTime.ToString();
-            energyRestorePartLabel.text = "00:00:" + leftTimeStr;
-
-
-            string leftTimeMin = "00";
-            string leftTimehour = "00";
-            // 分钟小时  playerInfo.Energy + "/" + playerInfo.energyMax;
-            int min = (PlayerInfo._instance.energyMax - PlayerInfo._instance.Energy - 1);
-            int hour = min % 60;
-            if(min > 0)
-            {
-                leftTimeMin = min < 10 ? "0" + min.ToString() : min.ToString();
-                leftTimehour = hour < 10 ? "0" + hour.ToString() : hour.ToString();
-            }
-            energyRestoreAllLabel.text = leftTimehour + ":" + leftTimehour + ":" + leftTimeStr;
-            // energyRestoreAllLabel = transform.Find("energy/allNameLabel/valueLabel").GetComponent<UILabel>();
-
-
-        }
-        if (PlayerInfo._instance.toughenTimer > 0.0f)
-        {
-            int leftTime = 60 - (int)PlayerInfo._instance.toughenTimer;
-            string leftTimeStr = leftTime < 10 ? "09" : leftTime.ToString();
-            toughenRestorePartLabel.text = "00:00:" + leftTimeStr;
-
-        }
+        OnChangeEnergyAndToughenRestoreTime();
     }
+
     private void Ondestroy()
     {
         PlayerInfo._instance.OnPlayerInfoChanged -= OnPlayerInfoChanged;
     }
+    #endregion
+
+
 
     private void OnPlayerInfoChanged(InfoType type)
     {
@@ -166,7 +179,7 @@ public class playerStatus : MonoBehaviour {
         }
         else if (type == InfoType.All)
         {
-            headSprite.name = playerInfo.HeadPic;
+            headSprite.spriteName = playerInfo.HeadPic;
             playerNameLabel.text = playerInfo.Name;
             levelLabel.text = playerInfo.Level.ToString();
             energyValueLabel.text = playerInfo.Energy + "/" + playerInfo.energyMax;
@@ -182,4 +195,89 @@ public class playerStatus : MonoBehaviour {
         }
         return;
     }
+    private void OnChangeEnergyAndToughenRestoreTime()
+    {
+        // 假设就是60秒显示一次了 方便实现
+        // 不过感觉有问题 就是焦点不在游戏上 就不会计时
+
+        if(PlayerInfo._instance.energyMax <= PlayerInfo._instance.Energy)
+        {
+            energyRestorePartLabel.text = "00:00:00";
+            energyRestoreAllLabel.text = "00:00:00";
+        }
+        else
+        {
+            if (PlayerInfo._instance.energyTimer > 0.0f)
+            {
+                int leftTime = 60 - (int)PlayerInfo._instance.energyTimer;
+
+                string leftTimeStr = GameController.ChangeNumToSuitableStr(leftTime);
+                energyRestorePartLabel.text = "00:00:" + leftTimeStr;
+
+                // 分钟小时  playerInfo.Energy + "/" + playerInfo.energyMax;
+                int min = (PlayerInfo._instance.energyMax - PlayerInfo._instance.Energy - 1);
+                int hour = min / 60;
+                min = min % 60;
+                string minStr = GameController.ChangeNumToSuitableStr(min);
+                string hourStr = GameController.ChangeNumToSuitableStr(hour);
+                energyRestoreAllLabel.text = hourStr + ":" + minStr + ":" + leftTimeStr;
+            }
+        }
+        if (PlayerInfo._instance.toughenMax <= PlayerInfo._instance.Toughen)
+        {
+            toughenRestorePartLabel.text = "00:00:00";
+            toughenRestoreAllLabel.text = "00:00:00";
+        }
+        else
+        {
+            if (PlayerInfo._instance.toughenTimer > 0.0f)
+            {
+                int leftTime = 60 - (int)PlayerInfo._instance.toughenTimer;
+                string leftTimeStr = GameController.ChangeNumToSuitableStr(leftTime);
+                toughenRestorePartLabel.text = "00:00:" + leftTimeStr;
+
+                int min = (PlayerInfo._instance.toughenMax - PlayerInfo._instance.Toughen - 1);
+                int hour = min / 60;
+                min = min % 60;
+                string minStr = GameController.ChangeNumToSuitableStr(min);
+                string hourStr = GameController.ChangeNumToSuitableStr(hour);
+                toughenRestoreAllLabel.text = hourStr + ":" + minStr + ":" + leftTimeStr;
+
+            }
+        }
+        return;
+    }
+
+
+    public void OnPlayerStatusCloseBtnClicked()
+    {
+        positionTween.PlayReverse();
+        Invoke("SetPlayerStatusInActive", 0.4f);  
+    }
+    public void OnChangNameBtnClicked()
+    {
+        chgName.SetActive(true);
+    }
+    public void OnSureChangeNameBtnClicked()
+    {
+        string newName = newNameInput.value;
+        PlayerInfo._instance.OnPlayerNameChanged(newName);
+        chgName.SetActive(false);
+    }
+    public void OnCancelChangeNameBtnClicked()
+    {
+        chgName.SetActive(false);
+    }
+
+
+    public void OnPlayerStatusShow()
+    {
+        transform.gameObject.SetActive(true);
+        positionTween.PlayForward();
+    }
+    private void SetPlayerStatusInActive()
+    {
+        transform.gameObject.SetActive(false);
+    }
+
 }

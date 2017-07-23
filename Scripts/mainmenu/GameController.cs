@@ -12,4 +12,11 @@ public class GameController : MonoBehaviour {
         int count = level - 1;
         return count * 100 + count * (count - 1) * 5;
     }
+
+
+    public static string ChangeNumToSuitableStr(int num)
+    {
+        string Str = num < 10 ? "0" + num.ToString() : num.ToString();
+        return Str;
+    }
 }
