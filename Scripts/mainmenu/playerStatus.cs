@@ -14,14 +14,12 @@ public class PlayerStatus : MonoBehaviour {
     private UILabel levelLabel;
     [SerializeField]
     private UILabel playerNameLabel;
-
     [SerializeField]
-    private UILabel fightValueLabel;
+    private UILabel powerValueLabel;
 
 
     [SerializeField]
     private UILabel expValueLabel;
-
     [SerializeField]
     private UISlider expSlider;
 
@@ -73,7 +71,7 @@ public class PlayerStatus : MonoBehaviour {
         playerNameLabel = transform.Find("playerNameLabel").GetComponent<UILabel>();
 
 
-        fightValueLabel = transform.Find("fightValueLabel").GetComponent<UILabel>();
+        powerValueLabel = transform.Find("fightValueLabel").GetComponent<UILabel>();
         expValueLabel = transform.Find("expBar_bg/valueLabel").GetComponent<UILabel>();
         expSlider = transform.Find("expBar_bg/exp").GetComponent<UISlider>();
 
@@ -165,9 +163,9 @@ public class PlayerStatus : MonoBehaviour {
             expValueLabel.text = playerInfo.Exp + "/" + expMax;
             expSlider.value = (float)playerInfo.Exp / (float)expMax;
         }
-        else if (type == InfoType.Fight)
+        else if (type == InfoType.Power)
         {
-            fightValueLabel.text = playerInfo.Fight.ToString();
+            powerValueLabel.text = playerInfo.Power.ToString();
         }
         else if (type == InfoType.Coin)
         {
@@ -189,7 +187,7 @@ public class PlayerStatus : MonoBehaviour {
             expValueLabel.text = playerInfo.Exp + "/" + expMax;
             expSlider.value = (float)playerInfo.Exp / (float)expMax;
 
-            fightValueLabel.text = playerInfo.Fight.ToString();
+            powerValueLabel.text = playerInfo.Power.ToString();
             coinValueLabel.text = playerInfo.Coin.ToString();
             diamondValueLabel.text = playerInfo.Diamond.ToString();
         }

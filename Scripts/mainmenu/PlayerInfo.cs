@@ -9,12 +9,22 @@ public enum InfoType
     Name,
     HeadPic,
     Level,
-    Fight,
+    Power,
     Diamond,
     Exp,
     Coin,
     Energy,
     Toughen,
+    Hp,
+    Damage,
+    HelmID,
+    ClothID,
+    WeaponID,
+    ShoesID,
+    NecklaceID,
+    BraceletID,
+    RingID,
+    WingID,
     All,
 }
 
@@ -40,15 +50,29 @@ public class PlayerInfo : MonoBehaviour {
     private int _toughen;
     private int _hp;
     private int _damage;
-    // 8个装备位
-    private int _helmID;
-    private int _clothID;
-    private int _weaponID;
-    private int _shoesID;
-    private int _necklaceID;
-    private int _braceletID;
-    private int _ringID;
-    private int _wingID;
+   
+    private InventoryItem[] equipArray = new InventoryItem[8];
+    // 8个装备位 每次设置这个得时候 记得分发事件  设置函数
+    public void SetEquipArray(InventoryItem item)
+    {
+
+        equipArray[(int)item.IPos - 1] = item;
+        OnPlayerInfoChanged((InfoType)((int)item.IPos + 10));
+    }
+    // 穿进来的这个item是个空值
+    public void ClearEquipArray(int idx)
+    {
+        equipArray[idx] = null;
+        OnPlayerInfoChanged((InfoType)(idx + 1 + 10));
+    }
+    public InventoryItem GetEquipArray(int idx)
+    {
+        if(idx >= 0 && idx <=7)
+        {
+            return equipArray[idx];
+        }
+        return null;  
+    }
     #endregion
 
 
@@ -63,6 +87,8 @@ public class PlayerInfo : MonoBehaviour {
         set
         {
             _name = value;
+            OnPlayerInfoChanged(InfoType.Name);
+
         }
     }
 
@@ -76,6 +102,8 @@ public class PlayerInfo : MonoBehaviour {
         set
         {
             _headPic = value;
+            OnPlayerInfoChanged(InfoType.HeadPic);
+
         }
     }
 
@@ -89,10 +117,12 @@ public class PlayerInfo : MonoBehaviour {
         set
         {
             _level = value;
+            OnPlayerInfoChanged(InfoType.Level);
+
         }
     }
 
-    public int Fight
+    public int Power
     {
         get
         {
@@ -102,6 +132,8 @@ public class PlayerInfo : MonoBehaviour {
         set
         {
             _power = value;
+            OnPlayerInfoChanged(InfoType.Power);
+
         }
     }
 
@@ -115,6 +147,8 @@ public class PlayerInfo : MonoBehaviour {
         set
         {
             _diamond = value;
+            OnPlayerInfoChanged(InfoType.Diamond);
+
         }
     }
 
@@ -128,6 +162,8 @@ public class PlayerInfo : MonoBehaviour {
         set
         {
             _exp = value;
+            OnPlayerInfoChanged(InfoType.Exp);
+
         }
     }
 
@@ -141,6 +177,8 @@ public class PlayerInfo : MonoBehaviour {
         set
         {
             _coin = value;
+            OnPlayerInfoChanged(InfoType.Coin);
+
         }
     }
 
@@ -154,6 +192,7 @@ public class PlayerInfo : MonoBehaviour {
         set
         {
             _energy = value;
+            OnPlayerInfoChanged(InfoType.Energy);
         }
     }
 
@@ -167,6 +206,7 @@ public class PlayerInfo : MonoBehaviour {
         set
         {
             _toughen = value;
+            OnPlayerInfoChanged(InfoType.Toughen);
         }
     }
 
@@ -180,6 +220,7 @@ public class PlayerInfo : MonoBehaviour {
         set
         {
             _hp = value;
+            OnPlayerInfoChanged(InfoType.Hp);
         }
     }
 
@@ -193,110 +234,7 @@ public class PlayerInfo : MonoBehaviour {
         set
         {
             _damage = value;
-        }
-    }
-
-    public int HelmID
-    {
-        get
-        {
-            return _helmID;
-        }
-
-        set
-        {
-            _helmID = value;
-        }
-    }
-
-    public int ClothID
-    {
-        get
-        {
-            return _clothID;
-        }
-
-        set
-        {
-            _clothID = value;
-        }
-    }
-
-    public int WeaponID
-    {
-        get
-        {
-            return _weaponID;
-        }
-
-        set
-        {
-            _weaponID = value;
-        }
-    }
-
-    public int ShoesID
-    {
-        get
-        {
-            return _shoesID;
-        }
-
-        set
-        {
-            _shoesID = value;
-        }
-    }
-
-    public int NecklaceID
-    {
-        get
-        {
-            return _necklaceID;
-        }
-
-        set
-        {
-            _necklaceID = value;
-        }
-    }
-
-    public int BraceletID
-    {
-        get
-        {
-            return _braceletID;
-        }
-
-        set
-        {
-            _braceletID = value;
-        }
-    }
-
-    public int RingID
-    {
-        get
-        {
-            return _ringID;
-        }
-
-        set
-        {
-            _ringID = value;
-        }
-    }
-
-    public int WingID
-    {
-        get
-        {
-            return _wingID;
-        }
-
-        set
-        {
-            _wingID = value;
+            OnPlayerInfoChanged(InfoType.Damage);
         }
     }
 
@@ -340,7 +278,6 @@ public class PlayerInfo : MonoBehaviour {
             if (energyTimer >= restoreEnergyInterval)
             {
                 Energy++;
-                OnPlayerInfoChanged(InfoType.Energy);
                 energyTimer -= restoreEnergyInterval;
  
                 
@@ -357,7 +294,6 @@ public class PlayerInfo : MonoBehaviour {
             if (toughenTimer >= restoreToughenInterval)
             {
                 Toughen++;
-                OnPlayerInfoChanged(InfoType.Toughen);
                 toughenTimer -= restoreToughenInterval;
             }
         }
@@ -381,18 +317,50 @@ public class PlayerInfo : MonoBehaviour {
         Name = "小强";
         HeadPic = "头像底板男性";
         Level = 8;
-        Fight = 1234;
+        Power = 1234;
         Diamond = 11111;
         Exp = 456;
         Coin = 22222;
         Energy = 99;
         Toughen = 40;
-        OnPlayerInfoChanged(InfoType.All);
-    }
 
+        // 就初始化这4个 其他四个默认为空
+        InitEquipArray();
+        // 生命值和伤害等到把身上装备都换完以后再进行 调用Change事件
+        InitHPDamagePower();
+    }
+    private void InitEquipArray()
+    {
+        List<InventoryItem> itemlist = InventoryManager._instance.InventoryItemlist;
+        foreach(InventoryItem item in itemlist)
+        {
+            if(item.IPos >= ItemPos.Helm && item.IPos <= ItemPos.Wing)
+            {
+                // 把定死的四个赋值进去 看看其他的是不是空
+                // i 为第几个元素
+                SetEquipArray(item);
+            }
+        }
+    }
+    private void InitHPDamagePower()
+    {
+        for(int i = 0; i < 8; ++i)
+        {
+            if(equipArray[i] != null)
+            {
+                _hp += equipArray[i].Inventory.EquipHp;
+                _damage += equipArray[i].Inventory.EquipDamage;
+                _power += equipArray[i].Inventory.EquipPower;
+            }
+        }
+        // 这里才会调用更新方法
+        Hp = Level * 100 + _hp;
+        Damage = Level * 50 + _damage;
+        Hp = Hp + Damage + _power;
+        return;
+    }
     public void OnPlayerNameChanged(string newName)
     {
         Name = newName;
-        OnPlayerInfoChanged(InfoType.Name);
     }
 }

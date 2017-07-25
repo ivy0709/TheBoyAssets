@@ -12,7 +12,7 @@ public enum InventoryType
 
 public enum EquipType
 {
-    Helm,
+    Helm = 1,
     Cloth,
     Weapon,
     Shoes,
@@ -24,7 +24,7 @@ public enum EquipType
 
 
 public class Inventory{
-
+    #region property
     private int _id; // ID
     private string _name;// 名称
     private string _icon;// 图集中的Sprite名称 图标 
@@ -221,4 +221,5 @@ public class Inventory{
             _describe = value;
         }
     }
+    #endregion
 }

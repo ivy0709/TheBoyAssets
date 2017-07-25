@@ -4,18 +4,35 @@ using UnityEngine;
 
 public class InventoryManager : MonoBehaviour {
 
-    public TextAsset InventoryList;
-    public IDictionary<int, Inventory> InventoryDic;
-    
+    public TextAsset InventoryText;
+    // 策划配置的表里面的所有的道具信息
+    public Dictionary<int, Inventory> InventoryDic = new Dictionary<int, Inventory>();
+
+    // 该角色所拥有的道具信息 应该放到角色相关信息里吧
+    public List<InventoryItem> InventoryItemlist = new List<InventoryItem>();
+
+    public static InventoryManager _instance;
+    private void Awake()
+    {
+        ReadInventoryList();
+        LoadInventoryOwned();
+        _instance = this;
+    }
     private void ReadInventoryList()
     {
-        string Str = InventoryList.ToString();
+        string Str = InventoryText.ToString();
         string[] rowArray = Str.Split('\n');
         string[] colArray;
-        
+        // 跳过第一行
+        bool IsFirstRow = true;
         foreach (string row in rowArray)
         {
-            colArray = Str.Split('|');
+            if(IsFirstRow)
+            {
+                IsFirstRow = false;
+                continue;
+            }
+            colArray = row.Split('|');
             // ID 名称 图标 类型（Equip，Drug） 装备类型(Helm, Cloth, Weapon, Shoes, Necklace, Bracelet, Ring, Wing) 
             Inventory item = new Inventory();
             item.Id = int.Parse(colArray[0]);
@@ -44,7 +61,7 @@ public class InventoryManager : MonoBehaviour {
                     case "Cloth":
                         item.EquipType = EquipType.Cloth;
                         break;
-                    case "Box":
+                    case "Weapon":
                         item.EquipType = EquipType.Weapon;
                         break;
                     case "Shoes":
@@ -76,7 +93,7 @@ public class InventoryManager : MonoBehaviour {
                 item.EquipPower = int.Parse(colArray[10]);
 
             }
-            // 作用类型 作用值 描述
+            // 作用类型 作用值
             if (item.InventoryType == InventoryType.Drug)
             {
                 switch (colArray[11])
@@ -86,10 +103,71 @@ public class InventoryManager : MonoBehaviour {
                         item.InfoType = InfoType.Energy;
                         break;
                 }
+                item.ApplyValue = int.Parse(colArray[12]);
             }
-            item.ApplyValue = int.Parse(colArray[12]);
+            // 描述
             item.Describe = colArray[13];
             InventoryDic.Add(item.Id, item);
+        }
+    }
+
+    public void LoadInventoryOwned()
+    {
+        // 应该是加载角色档案 获得所拥有的道具信息 TODO
+        // 这里随机生成吧
+        for(int i = 0; i < 16; ++i)
+        {
+            int id = Random.Range(1001, 1019);
+            Inventory inventory = new Inventory();
+            bool isExist = InventoryDic.TryGetValue(id, out inventory);
+            if(isExist)
+            {
+                if(inventory.InventoryType == InventoryType.Equip)
+                {
+                    InventoryItem item = new InventoryItem();
+                    // 引用的 InventoryDic里的inventory
+                    item.Inventory = inventory;
+                    item.Count = 1;
+                    item.IPos = ItemPos.Kasnapsack;
+                    item.Level = Random.Range(1,10);
+                    InventoryItemlist.Add(item);
+                }
+                else
+                {
+                    bool isSame = false;
+                    foreach(InventoryItem item in InventoryItemlist)
+                    {
+                        if(item.Inventory.Id == id)
+                        {
+                            item.Count++;
+                            isSame = true;
+                            break;
+                        }
+                    }
+                    if(!isSame)
+                    {
+                        InventoryItem item = new InventoryItem();
+                        item.Inventory = inventory;
+                        item.Count = 1;
+                        item.IPos = ItemPos.Kasnapsack;
+                        InventoryItemlist.Add(item);
+                    }
+
+                }
+            }
+        }
+            
+        // 硬写死四个 在装备位置上
+        for (int i = 0; i < 4; ++i)
+        {
+            Inventory inventory = new Inventory();
+            InventoryDic.TryGetValue(1004 + i, out inventory);
+            InventoryItem item = new InventoryItem();
+            item.Inventory = inventory;
+            item.Count = 1;
+            item.Level = Random.Range(1, 10);
+            item.IPos = (ItemPos)inventory.EquipType;
+            InventoryItemlist.Add(item);
         }
     }
 }

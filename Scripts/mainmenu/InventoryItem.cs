@@ -2,11 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InventoryItem{
+// 与 EquipType 中的值对应
+enum ItemPos
+{
+    Kasnapsack,
+    Helm = 1,
+    Cloth,
+    Weapon,
+    Shoes,
+    Necklace,
+    Bracelet,
+    Ring,
+    Wing,
+}
 
+
+
+public class InventoryItem{
+    #region property
     private Inventory _inventory;
     private int _level;
     private int _count;
+    private ItemPos _iPos;
 
     public Inventory Inventory
     {
@@ -46,4 +63,18 @@ public class InventoryItem{
             _count = value;
         }
     }
+
+    internal ItemPos IPos
+    {
+        get
+        {
+            return _iPos;
+        }
+
+        set
+        {
+            _iPos = value;
+        }
+    }
+    #endregion
 }

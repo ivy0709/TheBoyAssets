@@ -68,7 +68,7 @@ public class PlayerBar : MonoBehaviour {
         }
         else if (type == InfoType.HeadPic)
         {
-            headSprite.name = playerInfo.HeadPic;
+            headSprite.spriteName = playerInfo.HeadPic;
         }
         else if (type == InfoType.Level)
         {
