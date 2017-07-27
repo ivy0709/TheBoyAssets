@@ -98,6 +98,6 @@ public class PlayerBar : MonoBehaviour {
     }
     private void OnPlayerStatusShow()
     {
-        PlayerStatus._instance.OnPlayerStatusShow();
+        PlayerStatus._instance.OnSelfShow();
     }
 }

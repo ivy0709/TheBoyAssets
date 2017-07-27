@@ -16,25 +16,7 @@ public class KnapsackRole : MonoBehaviour {
     [SerializeField]
     private UISlider expSlider;
 
-
-    [SerializeField]
-    private KnapsackRoleEquip helm;
-    [SerializeField]
-    private KnapsackRoleEquip cloth;
-    [SerializeField]
-    private KnapsackRoleEquip weapon;
-    [SerializeField]
-    private KnapsackRoleEquip shoes;
-    [SerializeField]
-    private KnapsackRoleEquip necklace;
-    [SerializeField]
-    private KnapsackRoleEquip bracelet;
-    [SerializeField]
-    private KnapsackRoleEquip ring;
-    [SerializeField]
-    private KnapsackRoleEquip wing;
-
-    private KnapsackRoleEquip[] EquipArray = new KnapsackRoleEquip[8];
+    public KnapsackRoleEquip[] EquipArray = new KnapsackRoleEquip[8];
 
     private void Awake()
     {
@@ -57,21 +39,23 @@ public class KnapsackRole : MonoBehaviour {
     private void Start()
     {
         PlayerInfo._instance.OnPlayerInfoChanged += OnPlayerInfoChanged;
+        OnPlayerInfoChanged(InfoType.All);
     }
     private void Ondestroy()
     {
         PlayerInfo._instance.OnPlayerInfoChanged -= OnPlayerInfoChanged;
     }
-    
-
 
     private void OnPlayerInfoChanged(InfoType type)
     {
         PlayerInfo playerInfo = PlayerInfo._instance;
 
-        if(type >= InfoType.HelmID && type <= InfoType.WingID)
+        if(type == InfoType.Equip)
         {
-            EquipArray[type - InfoType.HelmID].Set(playerInfo.GetEquipArray(type - InfoType.HelmID));
+            for(int i = 0; i < 8; ++i)
+            {
+                EquipArray[i].It = playerInfo.GetEquipArray(i);
+            }
         }
         else if (type == InfoType.Name)
         {
@@ -87,6 +71,19 @@ public class KnapsackRole : MonoBehaviour {
         }
         else if (type == InfoType.Exp)
         {
+            int expMax = GameController.GetExpRequiredByLevel(playerInfo.Level + 1);
+            expValueLabel.text = playerInfo.Exp + "/" + expMax;
+            expSlider.value = (float)playerInfo.Exp / (float)expMax;
+        }
+        else if(type == InfoType.All)
+        {
+            for (int i = 0; i < 8; ++i)
+            {
+                EquipArray[i].It = playerInfo.GetEquipArray(i);
+            }
+            playerNameLabel.text = playerInfo.Name;
+            damageValueLabel.text = playerInfo.Damage.ToString();
+            hpValueLabel.text = playerInfo.Hp.ToString();
             int expMax = GameController.GetExpRequiredByLevel(playerInfo.Level + 1);
             expValueLabel.text = playerInfo.Exp + "/" + expMax;
             expSlider.value = (float)playerInfo.Exp / (float)expMax;

@@ -7,6 +7,20 @@ public class KnapsackRoleEquip : MonoBehaviour {
     [SerializeField]
     private UISprite sprite = null;
     private InventoryItem it;
+
+    public InventoryItem It
+    {
+        get
+        {
+            return it;
+        }
+
+        set
+        {
+            Set(value);
+        }
+    }
+
     private UISprite GetSprite()
     {
         if(sprite == null)
@@ -16,7 +30,7 @@ public class KnapsackRoleEquip : MonoBehaviour {
         return sprite;
     }
 	
-    public void Set(InventoryItem item)
+    private void Set(InventoryItem item)
     {
         it = item;
         if (item != null)
@@ -27,18 +41,18 @@ public class KnapsackRoleEquip : MonoBehaviour {
         {
             GetSprite().spriteName = "bg_道具";
         }
-        
     }
 
-    void OnPress(bool isPressed)
+    void OnClick()
     {
-        if(isPressed == true && it != null)
+        if(It != null)
         {
             object[] objectArray = new object[3];
-            objectArray[0] = it;
-            objectArray[1] = false;
-            // 表示的  没有 UIItem 
-            objectArray[2] = null;
+            objectArray[0] = It;
+            // 是否持有UIItem 
+            objectArray[1] = null;
+            // 是否持有EquipUI 
+            objectArray[2] = this;
             transform.parent.parent.SendMessage("OnItemShowClicked", objectArray);
         }
     }

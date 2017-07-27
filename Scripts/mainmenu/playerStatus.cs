@@ -100,7 +100,7 @@ public class PlayerStatus : MonoBehaviour {
 
         chgName = transform.Find("changeName").gameObject;
 
-        EventDelegate ed = new EventDelegate(this, "OnPlayerStatusCloseBtnClicked");
+        EventDelegate ed = new EventDelegate(this, "OnCloseBtnClicked");
         closeBtn.onClick.Add(ed);
 
         EventDelegate ed1 = new EventDelegate(this, "OnChangNameBtnClicked");
@@ -245,13 +245,7 @@ public class PlayerStatus : MonoBehaviour {
         }
         return;
     }
-
-
-    public void OnPlayerStatusCloseBtnClicked()
-    {
-        positionTween.PlayReverse();
-        Invoke("SetPlayerStatusInActive", 0.4f);  
-    }
+    #region 改名字按钮
     public void OnChangNameBtnClicked()
     {
         chgName.SetActive(true);
@@ -266,16 +260,22 @@ public class PlayerStatus : MonoBehaviour {
     {
         chgName.SetActive(false);
     }
+    #endregion
 
-
-    public void OnPlayerStatusShow()
+    #region 自身面板 的显示与隐藏
+    public void OnCloseBtnClicked()
+    {
+        positionTween.PlayReverse();
+        Invoke("SetSelfInActive", 0.4f);
+    }
+    public void OnSelfShow()
     {
         transform.gameObject.SetActive(true);
         positionTween.PlayForward();
     }
-    private void SetPlayerStatusInActive()
+    private void SetSelfInActive()
     {
         transform.gameObject.SetActive(false);
     }
-
+    #endregion
 }

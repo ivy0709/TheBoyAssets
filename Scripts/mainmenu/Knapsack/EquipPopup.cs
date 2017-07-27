@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EquipPopup : MonoBehaviour {
+public class EquipPopup : MonoBehaviour
+{
 
     [SerializeField]
     private UISprite itemSprite;
@@ -32,8 +33,10 @@ public class EquipPopup : MonoBehaviour {
     private UIButton upgradeBtn;
 
     private InventoryItemUI itUI;
-    private InventoryItem it;
+    public InventoryItem it;
+    private KnapsackRoleEquip equipUI;
 
+    #region unity event
     private void Awake()
     {
         itemSprite = transform.Find("itemPic/Sprite").GetComponent<UISprite>();
@@ -48,7 +51,7 @@ public class EquipPopup : MonoBehaviour {
         describeLabel = transform.Find("Label").GetComponent<UILabel>();
         equipLabel = transform.Find("equipBtn/Label").GetComponent<UILabel>();
 
-        
+
         closeBtn = transform.Find("closeBtn").GetComponent<UIButton>();
         equipBtn = transform.Find("equipBtn").GetComponent<UIButton>();
         upgradeBtn = transform.Find("upgradeBtn").GetComponent<UIButton>();
@@ -62,55 +65,49 @@ public class EquipPopup : MonoBehaviour {
 
         itUI = null;
     }
-    public void OnShow(InventoryItem item, InventoryItemUI itemUI , bool isLeft)
+    #endregion
+
+    public void OnShow(InventoryItem item, InventoryItemUI itemUI, KnapsackRoleEquip eUI)
     {
-        // 当点击的的是装备位上的装备的时候  itUI == null 
+        this.gameObject.SetActive(true);
         // 当点击的的是背包位上的装备的时候  itUI != null 
         itUI = itemUI;
         it = item;
-        this.gameObject.SetActive(true);
-        if(isLeft == true)
-        {
-            this.gameObject.transform.position = new Vector3(-System.Math.Abs(this.gameObject.transform.position.x), this.gameObject.transform.position.y, this.gameObject.transform.position.z);
-        }
-        else
-        {
-            this.gameObject.transform.position = new Vector3(System.Math.Abs(this.gameObject.transform.position.x), this.gameObject.transform.position.y, this.gameObject.transform.position.z);
-
-        }
+        equipUI = eUI;
         if (itUI == null)
         {
+            // 当点击的的是装备位上的装备的时候  itUI == null 
+            this.gameObject.transform.position = new Vector3(System.Math.Abs(this.gameObject.transform.position.x), this.gameObject.transform.position.y, this.gameObject.transform.position.z);
             equipLabel.text = "卸下";
         }
         else
         {
+            this.gameObject.transform.position = new Vector3(-System.Math.Abs(this.gameObject.transform.position.x), this.gameObject.transform.position.y, this.gameObject.transform.position.z);
             equipLabel.text = "装备";
         }
-        itemSprite.spriteName = item.Inventory.Icon;
-        itemNameLabel.text = item.Inventory.Name.ToString();
-
-        levelValueLabel.text = item.Level.ToString();
-        damageValueLabel.text = item.Inventory.EquipDamage.ToString();
-        hpValueLabel.text = item.Inventory.EquipHp.ToString();
-        powerValueLabel.text = item.Inventory.EquipPower.ToString();
-        qualityValueLabel.text = item.Inventory.EquipQuality.ToString();
-
-        describeLabel.text = item.Inventory.Describe;
+        itemSprite.spriteName = it.Inventory.Icon;
+        itemNameLabel.text = it.Inventory.Name.ToString();
+        OnUpdateItemShow();
+        qualityValueLabel.text = it.Inventory.EquipQuality.ToString();
+        describeLabel.text = it.Inventory.Describe;
     }
 
     public void OnCloseBtnClicked()
     {
         itUI = null;
         it = null;
+        equipUI = null;
         this.gameObject.SetActive(false);
+        transform.parent.SendMessage("DisableSellBtn", null);
     }
-    
+
     private void OnEquipBtnClicked()
     {
-        object[] objectArray = new object[2];
+        object[] objectArray = new object[3];
         objectArray[0] = it;
         objectArray[1] = itUI;
-        transform.parent.SendMessage("OnEquipBtnClicked", objectArray);
+        objectArray[2] = equipUI;
+        transform.parent.SendMessage("EquipOrUnEquipItem", objectArray);
     }
 
     private void OnUpgradeBtnClicked()
@@ -119,11 +116,15 @@ public class EquipPopup : MonoBehaviour {
         objectArray[0] = it;
         transform.parent.SendMessage("OnUpgradeBtnClicked", objectArray);
     }
-    public void OnUpdateItemLevel()
+    public void OnUpdateItemShow()
     {
-        if(it != null)
+        if (it != null)
         {
             levelValueLabel.text = it.Level.ToString();
+            int[] equipActuralProperty = GameController.GetActuralEquipDamgageHpPower(it);
+            damageValueLabel.text = equipActuralProperty[0].ToString();
+            hpValueLabel.text = equipActuralProperty[1].ToString();
+            powerValueLabel.text = equipActuralProperty[2].ToString();
         }
     }
 }

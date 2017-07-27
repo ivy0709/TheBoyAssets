@@ -25,6 +25,7 @@ public class InventoryItem{
     private int _count;
     private ItemPos _iPos;
 
+
     public Inventory Inventory
     {
         get
@@ -63,7 +64,6 @@ public class InventoryItem{
             _count = value;
         }
     }
-
     internal ItemPos IPos
     {
         get
