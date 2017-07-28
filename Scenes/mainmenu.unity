@@ -1133,8 +1133,8 @@ Transform:
   - {fileID: 2024941407}
   - {fileID: 2020033873}
   - {fileID: 167051742}
-  - {fileID: 996345925}
   - {fileID: 1075144038}
+  - {fileID: 996345925}
   - {fileID: 855505657}
   - {fileID: 31046757}
   - {fileID: 202273174}
@@ -3385,6 +3385,7 @@ GameObject:
   m_Component:
   - component: {fileID: 282714287}
   - component: {fileID: 282714288}
+  - component: {fileID: 282714289}
   m_Layer: 8
   m_Name: menuBar
   m_TagString: Untagged
@@ -3449,6 +3450,23 @@ MonoBehaviour:
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: 4.3469386
+--- !u!114 &282714289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 282714286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5afb6dca8e7a4c418435a760caccb39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bagbtn: {fileID: 0}
+  fightbtn: {fileID: 0}
+  skillbtn: {fileID: 0}
+  shopbtn: {fileID: 0}
+  settingbtn: {fileID: 0}
+  taskbtn: {fileID: 0}
 --- !u!1001 &303676748
 Prefab:
   m_ObjectHideFlags: 0
@@ -5417,7 +5435,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4220149735033606, guid: 778e99d656c2af6469e2741425b96bea, type: 2}
       propertyPath: m_RootOrder
-      value: 10
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 4717531049016276, guid: 778e99d656c2af6469e2741425b96bea, type: 2}
       propertyPath: m_LocalPosition.x
@@ -10124,7 +10142,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1806020597292418, guid: 3ce418558f5ef0643b4e6ba5ace12f20, type: 2}
       propertyPath: m_Name
-      value: close_btn
+      value: closeBtn
       objectReference: {fileID: 0}
     - target: {fileID: 114903513832524354, guid: 3ce418558f5ef0643b4e6ba5ace12f20,
         type: 2}
@@ -12239,8 +12257,8 @@ MonoBehaviour:
   - {fileID: 609315427}
   - {fileID: 1129578659}
   - {fileID: 1522374086}
-  - {fileID: 1325635848}
   - {fileID: 2065231024}
+  - {fileID: 1325635848}
   - {fileID: 469766551}
   - {fileID: 495306207}
   - {fileID: 138172310}
@@ -12254,6 +12272,8 @@ MonoBehaviour:
   - {fileID: 1876086589}
   - {fileID: 2082406243}
   - {fileID: 671967538}
+  arrangeBtn: {fileID: 0}
+  statLabel: {fileID: 0}
 --- !u!65 &1210805296
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12621,7 +12641,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4220149735033606, guid: 778e99d656c2af6469e2741425b96bea, type: 2}
       propertyPath: m_RootOrder
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4717531049016276, guid: 778e99d656c2af6469e2741425b96bea, type: 2}
       propertyPath: m_LocalPosition.x
@@ -13630,7 +13650,7 @@ MonoBehaviour:
   anchorOffset: 0
   softBorderPadding: 1
   renderQueue: 0
-  startingRenderQueue: 3022
+  startingRenderQueue: 3023
   mClipTexture: {fileID: 0}
   mAlpha: 1
   mClipping: 0
@@ -14808,6 +14828,7 @@ GameObject:
   - component: {fileID: 1499451392}
   - component: {fileID: 1499451393}
   - component: {fileID: 1499451394}
+  - component: {fileID: 1499451395}
   m_Layer: 8
   m_Name: knapsack
   m_TagString: Untagged
@@ -14822,7 +14843,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1499451391}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 4, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 932073974}
@@ -14885,6 +14906,54 @@ MonoBehaviour:
   equipPopup: {fileID: 0}
   inventoryPopup: {fileID: 0}
   role: {fileID: 0}
+  sellBtn: {fileID: 0}
+  closeBtn: {fileID: 0}
+  price: {fileID: 0}
+  positionTween: {fileID: 0}
+  curClickedItemUI: {fileID: 0}
+--- !u!114 &1499451395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1499451391}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d166255cacf07b4292b8402b3ddefc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  method: 0
+  style: 0
+  animationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  ignoreTimeScale: 1
+  delay: 0
+  duration: 0.3
+  steeperCurves: 0
+  tweenGroup: 0
+  useFixedUpdate: 0
+  onFinished: []
+  eventReceiver: {fileID: 0}
+  callWhenFinished: 
+  from: {x: 1012, y: 0, z: 0}
+  to: {x: 0, y: 0, z: 0}
+  worldSpace: 0
 --- !u!1 &1504882313
 GameObject:
   m_ObjectHideFlags: 0
@@ -16819,7 +16888,7 @@ MonoBehaviour:
   anchorOffset: 0
   softBorderPadding: 1
   renderQueue: 0
-  startingRenderQueue: 3021
+  startingRenderQueue: 3023
   mClipTexture: {fileID: 0}
   mAlpha: 1
   mClipping: 0

@@ -31,9 +31,16 @@ public class MenuBar : MonoBehaviour {
 
         EventDelegate ed = new EventDelegate(this, "OnKnapsackShow");
         bagbtn.onClick.Add(ed);
+        EventDelegate ed1 = new EventDelegate(this, "OnTaskPanelShow");
+        taskbtn.onClick.Add(ed1);
+
     }
     private void OnKnapsackShow()
     {
         KnapsacManager._instance.OnSelfShow();
+    }
+    private void OnTaskPanelShow()
+    {
+        TaskPanelManager._instance.OnSelfShow();
     }
 }
