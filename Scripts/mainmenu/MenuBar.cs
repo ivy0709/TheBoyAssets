@@ -33,6 +33,8 @@ public class MenuBar : MonoBehaviour {
         bagbtn.onClick.Add(ed);
         EventDelegate ed1 = new EventDelegate(this, "OnTaskPanelShow");
         taskbtn.onClick.Add(ed1);
+        EventDelegate ed2 = new EventDelegate(this, "OnSkillPanelShow");
+        skillbtn.onClick.Add(ed2);
 
     }
     private void OnKnapsackShow()
@@ -42,5 +44,9 @@ public class MenuBar : MonoBehaviour {
     private void OnTaskPanelShow()
     {
         TaskPanelManager._instance.OnSelfShow();
+    }
+    private void OnSkillPanelShow()
+    {
+        SkillPanelManager._instance.OnSelfShow();
     }
 }

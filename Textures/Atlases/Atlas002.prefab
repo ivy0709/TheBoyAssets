@@ -54,32 +54,6 @@ MonoBehaviour:
   material: {fileID: 2100000, guid: 4ebbd38dab269da47ba76b49d44af762, type: 2}
   mSprites:
   - name: "bg_\u4EFB\u52A1"
-    x: 0
-    y: 1012
-    width: 1455
-    height: 1001
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 0
-    paddingRight: 0
-    paddingTop: 0
-    paddingBottom: 0
-  - name: "bg_\u4EFB\u52A1\u6761"
-    x: 0
-    y: 785
-    width: 1378
-    height: 226
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 0
-    paddingRight: 0
-    paddingTop: 0
-    paddingBottom: 0
-  - name: "bg_\u5546\u5E97"
     x: 1921
     y: 3095
     width: 1455
@@ -92,9 +66,35 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
-  - name: "bg_\u5546\u5E97\u6761"
+  - name: "bg_\u4EFB\u52A1\u6761"
+    x: 1456
+    y: 2789
+    width: 1378
+    height: 226
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: "bg_\u5546\u5E97"
     x: 0
-    y: 618
+    y: 2014
+    width: 1455
+    height: 1001
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: "bg_\u5546\u5E97\u6761"
+    x: 2835
+    y: 2849
     width: 935
     height: 166
     borderLeft: 0
@@ -118,9 +118,204 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
+  - name: "btn_\u5173\u95ED1"
+    x: 3918
+    y: 3984
+    width: 112
+    height: 112
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: "btn_\u5173\u95ED2"
+    x: 3805
+    y: 3984
+    width: 112
+    height: 112
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: "btn_\u5173\u95ED3"
+    x: 3805
+    y: 3847
+    width: 112
+    height: 112
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: "btn_\u5173\u95ED4"
+    x: 3918
+    y: 3847
+    width: 112
+    height: 112
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: "btn_\u7EA21"
+    x: 3377
+    y: 3960
+    width: 427
+    height: 136
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: "btn_\u7EA22"
+    x: 3377
+    y: 3823
+    width: 427
+    height: 136
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: "btn_\u7EA23"
+    x: 3377
+    y: 3686
+    width: 427
+    height: 136
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: "btn_\u7EA24"
+    x: 3377
+    y: 3549
+    width: 427
+    height: 136
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: icon_li
+    x: 3377
+    y: 3161
+    width: 156
+    height: 156
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: icon_up
+    x: 3608
+    y: 3392
+    width: 156
+    height: 156
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: icon_zhu
+    x: 3377
+    y: 3318
+    width: 230
+    height: 230
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: iocn_fo
+    x: 3765
+    y: 3392
+    width: 156
+    height: 156
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: iocn_ho
+    x: 3922
+    y: 3392
+    width: 156
+    height: 156
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: iocn_yi
+    x: 3608
+    y: 3235
+    width: 156
+    height: 156
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: "\u534A\u900F\u660E\u80CC\u666F"
+    x: 0
+    y: 131
+    width: 1405
+    height: 880
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 9
+    paddingRight: 5
+    paddingTop: 0
+    paddingBottom: 5
   - name: "\u6280\u80FD\u7CFB\u7EDF\u80CC\u666F"
     x: 0
-    y: 2014
+    y: 1012
     width: 1455
     height: 1001
     borderLeft: 0
