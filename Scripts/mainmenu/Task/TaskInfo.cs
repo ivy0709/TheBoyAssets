@@ -35,7 +35,8 @@ public class TaskInfo
     private int _npcID;// NPC id
     private int _mapID;// 副本 id
 
-    
+    public delegate void OnTaskProgressChanged();
+    public event OnTaskProgressChanged OnTaskProgressChangedEvent;
 
 
     // 应该把这个分离出来的
@@ -154,7 +155,12 @@ public class TaskInfo
 
         set
         {
-            _taskProgress = value;
+            if(_taskProgress != value)
+            {
+                _taskProgress = value;
+                OnTaskProgressChangedEvent();
+            }
+           
         }
     }
 

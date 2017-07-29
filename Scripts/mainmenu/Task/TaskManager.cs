@@ -7,6 +7,22 @@ public class TaskManager : MonoBehaviour {
     public TextAsset TaskText;
     public ArrayList TaskList = new ArrayList();
     public static TaskManager _instance;
+    private TaskInfo curTask;
+
+    private PlayerAutoMove playerAutoMove;
+
+    public PlayerAutoMove PlayerAutoMove
+    {
+        get
+        {
+            if(playerAutoMove == null)
+            {
+                playerAutoMove = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerAutoMove>();
+            }
+
+            return playerAutoMove;
+        }
+    }
 
     private void Awake()
     {
@@ -57,4 +73,42 @@ public class TaskManager : MonoBehaviour {
 
     }
 
+    public void OnExcuteTask(TaskInfo task)
+    {
+        // 执行自动寻路
+        // 关闭任务界面
+
+
+        // 当前执行任务
+        curTask = task;
+        if(curTask.TaskProgress == TaskProgress.NoStart)
+        {
+            // 寻路到NPC所在的位置
+            PlayerAutoMove.SetDestination(NPCManager._instance.GetNPCById(task.NpcID).transform.position);
+        }
+        else if (curTask.TaskProgress == TaskProgress.Accept)
+        {
+            // 寻路到副本入口
+            PlayerAutoMove.SetDestination(NPCManager._instance.Transcript.transform.position);
+        }
+        TaskPanelManager._instance.OnCloseBtnClicked();
+    }
+    public void OnAcceptTask()
+    {
+        curTask.TaskProgress = TaskProgress.Accept;
+        OnExcuteTask(curTask);
+    }
+    public void OnArrivedDestination()
+    {
+        // 当前执行任务
+        if (curTask.TaskProgress == TaskProgress.NoStart)
+        {
+            DiagUI._instance.OnShow(curTask.TalkInfo);
+
+        }
+        else if (curTask.TaskProgress == TaskProgress.Accept)
+        {
+            // 进入副本
+        }
+    }
 }

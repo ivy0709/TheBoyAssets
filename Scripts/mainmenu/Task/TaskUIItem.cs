@@ -54,11 +54,24 @@ public class TaskUIItem : MonoBehaviour {
 
         combatLabel = transform.Find("combat/Label").GetComponent<UILabel>();
 
+        EventDelegate ed = new EventDelegate(this, "OnCombat");
+        combat.onClick.Add(ed);
+        EventDelegate ed1 = new EventDelegate(this, "OnGetReward");
+        getReward.onClick.Add(ed1);
+
+
     }
 
     public void Set(TaskInfo item)
     {
         taskItem = item;
+        item.OnTaskProgressChangedEvent += this.OnTaskProgressChangedEvent;
+        UpdateItemUI();
+    }
+
+    private void UpdateItemUI()
+    {
+        TaskInfo item = taskItem;
         switch (taskItem.TaskType)
         {
             case TaskType.Main:
@@ -75,7 +88,7 @@ public class TaskUIItem : MonoBehaviour {
 
         taskName.text = item.Name;
         describe.text = item.Describe;
-        if(item.CoinAward != 0)
+        if (item.CoinAward != 0)
         {
             coinSprite.gameObject.SetActive(true);
             coinSprite.spriteName = "金币";
@@ -112,5 +125,19 @@ public class TaskUIItem : MonoBehaviour {
                 combat.gameObject.SetActive(false);
                 break;
         }
+    }
+
+    private void OnCombat()
+    {
+        TaskManager._instance.OnExcuteTask(taskItem);
+    }
+    private void OnGetReward()
+    {
+
+    }
+
+    void OnTaskProgressChangedEvent()
+    {
+        UpdateItemUI();
     }
 }

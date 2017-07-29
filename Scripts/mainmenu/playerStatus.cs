@@ -114,6 +114,8 @@ public class PlayerStatus : MonoBehaviour {
 
         _instance = this;
 
+        gameObject.SetActive(false);
+
     }
 
     private void Start()
