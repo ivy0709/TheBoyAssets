@@ -9,7 +9,7 @@ public class FollowTarget : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        playerPos = GameObject.FindGameObjectWithTag("Player").transform;
+        playerPos = GameObject.FindGameObjectWithTag("Player").transform.Find("Bip01");
     }
 	
 	// Update is called once per frame

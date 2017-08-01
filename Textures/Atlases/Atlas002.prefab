@@ -54,7 +54,7 @@ MonoBehaviour:
   material: {fileID: 2100000, guid: 4ebbd38dab269da47ba76b49d44af762, type: 2}
   mSprites:
   - name: "bg_\u4EFB\u52A1"
-    x: 1921
+    x: 0
     y: 3095
     width: 1455
     height: 1001
@@ -67,8 +67,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: "bg_\u4EFB\u52A1\u6761"
-    x: 1456
-    y: 2789
+    x: 0
+    y: 985
     width: 1378
     height: 226
     borderLeft: 0
@@ -80,8 +80,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: "bg_\u5546\u5E97"
-    x: 0
-    y: 2014
+    x: 1456
+    y: 3095
     width: 1455
     height: 1001
     borderLeft: 0
@@ -93,8 +93,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: "bg_\u5546\u5E97\u6761"
-    x: 2835
-    y: 2849
+    x: 2912
+    y: 3930
     width: 935
     height: 166
     borderLeft: 0
@@ -105,22 +105,9 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
-  - name: "bg_\u5730\u56FE"
-    x: 0
-    y: 3016
-    width: 1920
-    height: 1080
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 0
-    paddingRight: 0
-    paddingTop: 0
-    paddingBottom: 0
   - name: "btn_\u5173\u95ED1"
-    x: 3918
-    y: 3984
+    x: 3340
+    y: 3660
     width: 112
     height: 112
     borderLeft: 0
@@ -132,8 +119,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: "btn_\u5173\u95ED2"
-    x: 3805
-    y: 3984
+    x: 3340
+    y: 3547
     width: 112
     height: 112
     borderLeft: 0
@@ -145,8 +132,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: "btn_\u5173\u95ED3"
-    x: 3805
-    y: 3847
+    x: 3340
+    y: 3434
     width: 112
     height: 112
     borderLeft: 0
@@ -158,8 +145,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: "btn_\u5173\u95ED4"
-    x: 3918
-    y: 3847
+    x: 3340
+    y: 3321
     width: 112
     height: 112
     borderLeft: 0
@@ -171,8 +158,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: "btn_\u7EA21"
-    x: 3377
-    y: 3960
+    x: 2912
+    y: 3793
     width: 427
     height: 136
     borderLeft: 0
@@ -184,8 +171,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: "btn_\u7EA22"
-    x: 3377
-    y: 3823
+    x: 2912
+    y: 3656
     width: 427
     height: 136
     borderLeft: 0
@@ -197,8 +184,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: "btn_\u7EA23"
-    x: 3377
-    y: 3686
+    x: 2912
+    y: 3519
     width: 427
     height: 136
     borderLeft: 0
@@ -210,8 +197,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: "btn_\u7EA24"
-    x: 3377
-    y: 3549
+    x: 2912
+    y: 3382
     width: 427
     height: 136
     borderLeft: 0
@@ -223,8 +210,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: icon_li
-    x: 3377
-    y: 3161
+    x: 3848
+    y: 3940
     width: 156
     height: 156
     borderLeft: 0
@@ -236,8 +223,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: icon_up
-    x: 3608
-    y: 3392
+    x: 3340
+    y: 3773
     width: 156
     height: 156
     borderLeft: 0
@@ -249,8 +236,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: icon_zhu
-    x: 3377
-    y: 3318
+    x: 2912
+    y: 3151
     width: 230
     height: 230
     borderLeft: 0
@@ -262,8 +249,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: iocn_fo
-    x: 3765
-    y: 3392
+    x: 3497
+    y: 3773
     width: 156
     height: 156
     borderLeft: 0
@@ -275,8 +262,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: iocn_ho
-    x: 3922
-    y: 3392
+    x: 3654
+    y: 3773
     width: 156
     height: 156
     borderLeft: 0
@@ -288,8 +275,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: iocn_yi
-    x: 3608
-    y: 3235
+    x: 3811
+    y: 3773
     width: 156
     height: 156
     borderLeft: 0
@@ -300,9 +287,35 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
+  - name: "star-\u7070\u8272"
+    x: 4005
+    y: 4047
+    width: 52
+    height: 49
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: "star-\u9EC4\u8272"
+    x: 4005
+    y: 3997
+    width: 48
+    height: 49
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
   - name: "\u534A\u900F\u660E\u80CC\u666F"
     x: 0
-    y: 131
+    y: 1212
     width: 1405
     height: 880
     borderLeft: 0
@@ -313,9 +326,48 @@ MonoBehaviour:
     paddingRight: 5
     paddingTop: 0
     paddingBottom: 5
+  - name: "\u5730\u56FE-\u666E\u901A"
+    x: 3143
+    y: 3202
+    width: 171
+    height: 179
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: "\u5730\u56FE-\u7BB1\u5B50"
+    x: 3968
+    y: 3810
+    width: 109
+    height: 119
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 3
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: "\u5730\u56FE-\u7CBE\u82F1"
+    x: 3340
+    y: 3211
+    width: 104
+    height: 109
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 3
+    paddingBottom: 0
   - name: "\u6280\u80FD\u7CFB\u7EDF\u80CC\u666F"
     x: 0
-    y: 1012
+    y: 2093
     width: 1455
     height: 1001
     borderLeft: 0
