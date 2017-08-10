@@ -2237,7 +2237,7 @@ MonoBehaviour:
   useTouch: 1
   allowMultiTouch: 1
   useKeyboard: 1
-  useController: 1
+  useController: 0
   stickyTooltip: 1
   tooltipDelay: 1
   longPressTooltip: 0

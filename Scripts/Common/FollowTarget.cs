@@ -12,9 +12,9 @@ public class FollowTarget : MonoBehaviour {
     void Start () {
         playerPos = GameObject.FindGameObjectWithTag("Player").transform.Find("Bip01");
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void FixedUpdate() {
         // 原来:
         // 直接移动过去
         // transform.position = playerPos.position + offset;

@@ -18,7 +18,7 @@ public class PlayerTranscriptMove : MonoBehaviour {
     {
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
-
+        
         Vector3 vel = rigid.velocity;
         // 如果有按键按下 那么进行自身朝向的改变
         if (Mathf.Abs(h) > 0.05f || Mathf.Abs(v) > 0.05f)
