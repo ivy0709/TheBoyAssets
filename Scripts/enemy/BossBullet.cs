@@ -6,9 +6,10 @@ public class BossBullet : MonoBehaviour {
 
     public float moveSpeed = 3.0f;
     public float damageRate = 0.5f;
+    public float force = 200.0f;
 
     [SerializeField]
-    private List<GameObject> playerList;
+    private List<GameObject> playerList = new List<GameObject>();
 
     public int attackDamage;
 
@@ -27,6 +28,8 @@ public class BossBullet : MonoBehaviour {
     {
         foreach(GameObject go in playerList)
         {
+
+            go.GetComponent<Rigidbody>().AddForce(transform.forward * force);
             go.SendMessage("TakeDamage", attackDamage * damageRate, SendMessageOptions.DontRequireReceiver);
         }
     }
