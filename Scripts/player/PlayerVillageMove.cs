@@ -28,7 +28,10 @@ public class PlayerVillageMove : MonoBehaviour {
         {
             if(agent.enabled)
             {
-                transform.rotation = Quaternion.LookRotation(agent.velocity);
+                if (agent.velocity != Vector3.zero)
+                {
+                    transform.rotation = Quaternion.LookRotation(agent.velocity);
+                }
             }
             else
             {

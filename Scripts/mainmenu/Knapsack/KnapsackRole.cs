@@ -41,7 +41,7 @@ public class KnapsackRole : MonoBehaviour {
         PlayerInfo._instance.OnPlayerInfoChanged += OnPlayerInfoChanged;
         OnPlayerInfoChanged(InfoType.All);
     }
-    private void Ondestroy()
+    private void OnDestroy()
     {
         PlayerInfo._instance.OnPlayerInfoChanged -= OnPlayerInfoChanged;
     }

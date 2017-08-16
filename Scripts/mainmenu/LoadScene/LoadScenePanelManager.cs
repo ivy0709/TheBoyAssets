@@ -22,7 +22,7 @@ public class LoadScenePanelManager : MonoBehaviour {
         if(isAsync)
         {
             prograssBar.value = ao.progress;
-            if(prograssBar.value == 1.0f)
+            if(prograssBar.value >= 1.0f)
             {
                 isAsync = false;
             }

@@ -22,14 +22,22 @@ public class TaskPanelManager : MonoBehaviour {
 
         EventDelegate ed1 = new EventDelegate(this, "OnCloseBtnClicked");
         closeBtn.onClick.Add(ed1);
-
-        this.gameObject.SetActive(false);
     }
 
     private void Start()
     {
+        TaskManager._instance.OnSyncTaskCompleted += OnSyncTaskCompleted;
+    }
+    private void OnDestroy()
+    {
+        TaskManager._instance.OnSyncTaskCompleted -= OnSyncTaskCompleted;
+    }
+    public void OnSyncTaskCompleted()
+    {
+        // GetTaskDBs 服务器同步完成以后才能加载
         LoadTaskList();
     }
+
     private void LoadTaskList()
     {
         ArrayList tasklist = TaskManager._instance.TaskList;

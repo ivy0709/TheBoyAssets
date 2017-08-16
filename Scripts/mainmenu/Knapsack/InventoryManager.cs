@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TaiDouCommon.Model;
 using UnityEngine;
 
 public class InventoryManager : MonoBehaviour {
@@ -12,12 +13,35 @@ public class InventoryManager : MonoBehaviour {
     public List<InventoryItem> InventoryItemlist = new List<InventoryItem>();
 
     public static InventoryManager _instance;
+
+    public InventoryItemDBController inventoryItemDBController;
     private void Awake()
     {
         ReadInventoryList();
-        LoadInventoryOwned();
         _instance = this;
+        inventoryItemDBController = this.GetComponent<InventoryItemDBController>();
+        inventoryItemDBController.OnAddInventoryItemDB += OnAddInventoryItemDB;
+        inventoryItemDBController.OnGetInventoryItemDBs += OnGetInventoryItemDBs;
+        inventoryItemDBController.OnUpdateInventoryItemDB += OnUpdateInventoryItemDB;
     }
+
+    private void Start()
+    {
+        // 向服务器询问 inventoryitemDB
+        inventoryItemDBController.GetInventoryItemDBs();
+    }
+
+    private void OnDestroy()
+    {
+
+        if (inventoryItemDBController != null)
+        {
+            inventoryItemDBController.OnAddInventoryItemDB -= OnAddInventoryItemDB;
+            inventoryItemDBController.OnGetInventoryItemDBs -= OnGetInventoryItemDBs;
+            inventoryItemDBController.OnUpdateInventoryItemDB -= OnUpdateInventoryItemDB;
+        }
+    }
+
     private void ReadInventoryList()
     {
         string Str = InventoryText.ToString();
@@ -170,4 +194,35 @@ public class InventoryManager : MonoBehaviour {
             InventoryItemlist.Add(item);
         }
     }
+
+
+    public void OnGetInventoryItemDBs(List<InventoryItemDB> list)
+    {
+        // 得到了服务器的返回的 itemdb
+        if (list != null && list.Count > 0)
+        {
+            // 创建 InventoryItemlist
+            InventoryItem item = new InventoryItem();
+            // 引用的 InventoryDic里的inventory
+            item.Inventory = inventory;
+            item.Count = 1;
+            item.IPos = ItemPos.Kasnapsack;
+            item.Level = Random.Range(1, 10);
+            InventoryItemlist.Add(item);
+
+
+        }
+    }
+
+    public void OnAddInventoryItemDB(InventoryItemDB db)
+    {
+        
+    }
+
+    public void OnUpdateInventoryItemDB()
+    {
+        
+    }
+
+
 }

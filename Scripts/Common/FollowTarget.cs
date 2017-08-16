@@ -14,12 +14,15 @@ public class FollowTarget : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void FixedUpdate() {
-        // 原来:
-        // 直接移动过去
-        // transform.position = playerPos.position + offset;
-        // 改进:
-        // 缓慢的移动过去
+    void FixedUpdate()
+    {
+        if (playerPos == null)
+            return;
+            // 原来:
+            // 直接移动过去
+            // transform.position = playerPos.position + offset;
+            // 改进:
+            // 缓慢的移动过去
         Vector3 targetPos = playerPos.position + offset;
         transform.position = Vector3.Lerp(transform.position, targetPos, smoothing * Time.deltaTime);
 	}

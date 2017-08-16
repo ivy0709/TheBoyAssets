@@ -4,6 +4,29 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour {
 
+    private void Awake()
+    {
+        // 找到出生点
+        Transform spawnPos = GameObject.Find("PlayerSpawn").transform;
+        
+        // 初始化prefab名字
+        string playerPrefabName = "playerGirl";
+        if (PhotonEngine.Instance.role.IsMan)
+        {
+            playerPrefabName = "playerBoy";
+        }
+        // 找到prefab   
+        GameObject prefabGo = Resources.Load("Players/" + playerPrefabName) as GameObject;
+        // 实例化找到的gameobject;
+        if(prefabGo == null)
+            return;
+        GameObject playerGo = GameObject.Instantiate(prefabGo);
+        // 设置位置
+        playerGo.transform.position = spawnPos.position;
+    }
+
+
+
 	// Use this for initialization
 	public static int GetExpRequiredByLevel(int level)
     {

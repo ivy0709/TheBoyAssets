@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TaiDouCommon.Model;
 using UnityEngine;
 
 // 与 EquipType 中的值对应
@@ -25,6 +26,25 @@ public class InventoryItem{
     private int _count;
     private ItemPos _iPos;
 
+    public InventoryItemDB itemDB
+    {
+        get;
+        set;
+    }
+
+    public InventoryItem()
+    {
+        
+    }
+    public InventoryItem(InventoryItemDB db)
+    {
+        itemDB = db;
+        Inventory inventory = new Inventory();
+
+
+
+
+    }
 
     public Inventory Inventory
     {

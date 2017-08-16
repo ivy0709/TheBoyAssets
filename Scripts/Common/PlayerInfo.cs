@@ -51,6 +51,8 @@ public class PlayerInfo : MonoBehaviour {
     private PlayerType _playerType;
     #endregion
 
+    private RoleController roleController;
+
 
     #region the get/set method
     public string Name
@@ -63,6 +65,7 @@ public class PlayerInfo : MonoBehaviour {
         set
         {
             _name = value;
+            PhotonEngine.Instance.role.Name = value;
             OnPlayerInfoChanged(InfoType.Name);
 
         }
@@ -168,6 +171,7 @@ public class PlayerInfo : MonoBehaviour {
         set
         {
             _energy = value;
+            PhotonEngine.Instance.role.Energy = value;
             OnPlayerInfoChanged(InfoType.Energy);
         }
     }
@@ -182,6 +186,7 @@ public class PlayerInfo : MonoBehaviour {
         set
         {
             _toughen = value;
+            PhotonEngine.Instance.role.Toughen = value;
             OnPlayerInfoChanged(InfoType.Toughen);
         }
     }
@@ -243,7 +248,6 @@ public class PlayerInfo : MonoBehaviour {
     public delegate void OnPlayerInfoChangedEvent(InfoType type);
     public event OnPlayerInfoChangedEvent OnPlayerInfoChanged;
     #endregion
-
 
     #region UpdateEquipArray
     private InventoryItem[] equipArray = new InventoryItem[8];
@@ -342,10 +346,16 @@ public class PlayerInfo : MonoBehaviour {
     private void Awake()
     {
         _instance = this;
+        roleController = this.GetComponent<RoleController>();
     }
     private void Start()
     {
         Init();
+        OnPlayerInfoChanged += OnUpdateRole2Server;
+    }
+    private void OnDestroy()
+    {
+        OnPlayerInfoChanged -= OnUpdateRole2Server;
     }
     private void Update()
     {
@@ -389,23 +399,30 @@ public class PlayerInfo : MonoBehaviour {
     /// </summary>
     private void Init()
     {
-        // 应该根据选的角色来初始化 TODO
-        // 这里随便写了 也方便测试
-        Name = "小强";
-        HeadPic = "头像底板男性";
-        Level = 8;
-        Power = 1234;
-        Diamond = 11111;
-        Exp = 456;
-        Coin = 22222;
-        Energy = 99;
-        Toughen = 40;
-        PlayerType = PlayerType.Warrior;
-
+        // 应该根据选的角色来初始化 
+        _name = PhotonEngine.Instance.role.Name;
+        if (PhotonEngine.Instance.role.IsMan)
+        {
+            _headPic = "头像底板男性";
+        }
+        else
+        {
+            _headPic = "头像底板女性";
+        }
+        _level = PhotonEngine.Instance.role.Level;
+        _diamond = PhotonEngine.Instance.role.Diamond;
+        _exp = PhotonEngine.Instance.role.Exp;
+        _coin = PhotonEngine.Instance.role.Coin;
+        _energy = PhotonEngine.Instance.role.Energy;
+        _toughen = PhotonEngine.Instance.role.Toughen;
+        _playerType = PlayerType.Warrior;
         // 就初始化这4个 其他四个默认为空
         InitEquipArray();
-        // 生命值和伤害等到把身上装备都换完以后再进行 调用Change事件
+        // 生命值和伤害等到把身上装备都换完以后再进行 件
         InitHPDamagePower();
+
+        // 统一调用Change事件
+        OnPlayerInfoChanged(InfoType.All);
     }
     private void InitEquipArray()
     {
@@ -419,7 +436,6 @@ public class PlayerInfo : MonoBehaviour {
                 equipArray[(int)item.IPos - 1] = item;
             }
         }
-        OnPlayerInfoChanged(InfoType.Equip);
     }
     private void InitHPDamagePower()
     {
@@ -436,12 +452,19 @@ public class PlayerInfo : MonoBehaviour {
         }
         // 这里才会调用更新方法
         // 角色等级基础 属性值 加上 已装备的武器的属性值 等于 总的属性值
-        Hp = Level * 100 + _hp;
-        Damage = Level * 50 + _damage;
-        Power = Level * 100 + Level * 50 + _power;
-        return;
+        _hp = Level * 100 + _hp;
+        _damage = Level * 50 + _damage;
+        _power = Level * 100 + Level * 50 + _power;
     }
     #endregion
+
+    public void OnUpdateRole2Server(InfoType type)
+    {
+        if (type == InfoType.Name || type == InfoType.Energy || type == InfoType.Toughen)
+        {
+            roleController.UpdateRole(PhotonEngine.Instance.role);
+        }
+    }
 
     public void OnPlayerNameChanged(string newName)
     {

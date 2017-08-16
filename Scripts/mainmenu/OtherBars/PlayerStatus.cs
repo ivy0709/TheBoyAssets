@@ -128,7 +128,7 @@ public class PlayerStatus : MonoBehaviour {
         OnChangeEnergyAndToughenRestoreTime();
     }
 
-    private void Ondestroy()
+    private void OnDestroy()
     {
         PlayerInfo._instance.OnPlayerInfoChanged -= OnPlayerInfoChanged;
     }

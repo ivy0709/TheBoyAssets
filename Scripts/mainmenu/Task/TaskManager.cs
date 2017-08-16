@@ -1,16 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TaiDouCommon.Model;
 using UnityEngine;
 
 public class TaskManager : MonoBehaviour {
 
     public TextAsset TaskText;
     public ArrayList TaskList = new ArrayList();
+    public Dictionary<int, TaskInfo> TaskDict = new Dictionary<int, TaskInfo>();
     public static TaskManager _instance;
     private TaskInfo curTask;
+    public TaskDBController taskController;
+
 
     private PlayerAutoMove playerAutoMove;
 
+
+    public event OnSyncTaskCompletedEvent OnSyncTaskCompleted;
     public PlayerAutoMove PlayerAutoMove
     {
         get
@@ -26,10 +32,59 @@ public class TaskManager : MonoBehaviour {
 
     private void Awake()
     {
-        ReadTaskList();
-        // LoadTaskList();
         _instance = this;
+        taskController = this.GetComponent<TaskDBController>();
+        // 进行事件的注册
+        taskController.OnGetTaskDBs += OnGetTaskDBs;
+        taskController.OnAddTaskDB += OnAddTaskDB;
+        taskController.OnUpdateTaskDB += OnUpdateTaskDB;
     }
+
+    private void Start()
+    {
+        ReadTaskList();
+        // 进行服务器端的链接获取 taskDB 列表
+        taskController.GetTaskDBs();
+    }
+    private void OnDestroy()
+    {
+        if (taskController != null)
+        {
+            taskController.OnGetTaskDBs -= OnGetTaskDBs;
+            taskController.OnAddTaskDB -= OnAddTaskDB;
+            taskController.OnUpdateTaskDB -= OnUpdateTaskDB;
+        }
+    }
+    public void OnGetTaskDBs(List<TaskDB> list)
+    {
+        // 获取的 taskDB 列表
+        if (list != null && list.Count > 0)
+        {
+            // 根据 TaskDB 里面的 taskID 查找 本地列表里面的 taskInfo  把这个 db 同步进去
+            foreach (var item in list)
+            {
+                TaskInfo task = null;
+                TaskDict.TryGetValue(item.TaskId, out task);
+                if (task != null)
+                {
+                    // 同步其消息
+                    // 同步完了以后才能加载 taskui
+                    task.SyncTaskDB(item);
+                }
+            };
+        }
+        OnSyncTaskCompleted();
+    }
+
+    public void OnAddTaskDB(TaskDB task)
+    {
+        // 其实服务器端都没有必要回发这个task的信息 因为就是客户端传过去的 而已传过去之前已经有了
+    }
+    public void OnUpdateTaskDB()
+    {
+       
+    }
+
     private void ReadTaskList()
     {
         string Str = TaskText.ToString();
@@ -63,6 +118,7 @@ public class TaskManager : MonoBehaviour {
             item.NpcID = int.Parse(colArray[8]);
             item.MapID = int.Parse(colArray[9]);
             TaskList.Add(item);
+            TaskDict.Add(item.Id, item);
         }
     }
 
@@ -93,9 +149,13 @@ public class TaskManager : MonoBehaviour {
         }
         TaskPanelManager._instance.OnCloseBtnClicked();
     }
+    /// <summary>
+    /// 点击接受 更新任务状态
+    /// </summary>
     public void OnAcceptTask()
     {
         curTask.TaskProgress = TaskProgress.Accept;
+        curTask.UpdateTaskDB();
         OnExcuteTask(curTask);
     }
     public void OnArrivedDestination()

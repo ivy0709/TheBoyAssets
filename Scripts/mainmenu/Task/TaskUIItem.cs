@@ -32,7 +32,7 @@ public class TaskUIItem : MonoBehaviour {
     [SerializeField]
     private UILabel combatLabel;//有时候显示战斗 有时候显示下一步
 
-    private TaskInfo taskItem;
+    private TaskInfo taskItem = new TaskInfo();
 
     private void Awake()
     {
@@ -62,10 +62,14 @@ public class TaskUIItem : MonoBehaviour {
 
     }
 
+    public void Start()
+    {
+        taskItem.OnTaskProgressChangedEvent += this.OnTaskProgressChangedEvent;
+    }
+
     public void Set(TaskInfo item)
     {
         taskItem = item;
-        item.OnTaskProgressChangedEvent += this.OnTaskProgressChangedEvent;
         UpdateItemUI();
     }
 

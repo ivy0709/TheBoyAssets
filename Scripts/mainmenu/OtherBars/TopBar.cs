@@ -27,7 +27,7 @@ public class TopBar : MonoBehaviour {
     {
         PlayerInfo._instance.OnPlayerInfoChanged += OnPlayerInfoChanged;
     }
-    private void Ondestroy()
+    private void OnDestroy()
     {
         PlayerInfo._instance.OnPlayerInfoChanged -= OnPlayerInfoChanged;
     }

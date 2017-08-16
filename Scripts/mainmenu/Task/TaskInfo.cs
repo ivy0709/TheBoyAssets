@@ -1,10 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using TaiDouCommon.Model;
 using UnityEngine;
 
 public enum TaskType
 {
-    Main,
+    Main = 0,
     Reward,
     Daily,
 }
@@ -14,7 +16,7 @@ public enum TaskType
 // iv.	获取奖励（结
 public enum TaskProgress
 {
-    NoStart,
+    NoStart = 0,
     Accept,
     Complete,
     Reward,
@@ -41,6 +43,41 @@ public class TaskInfo
 
     // 应该把这个分离出来的
     private TaskProgress _taskProgress = TaskProgress.NoStart;// 任务的状态
+
+    public TaskDB TaskDB
+    {
+        get;
+        set;
+    }
+
+    public void SyncTaskDB(TaskDB db)
+    {
+        // 同步下来的 直接赋值
+        TaskDB = db;
+        _taskProgress = (TaskProgress) db.State;
+    }
+
+    public void UpdateTaskDB()
+    {
+        // 如果当前的任务状态还没有在服务器数据库备份 需要发送添加消息
+        if (TaskDB == null)
+        {
+            TaskDB db = new TaskDB();
+            db.TaskId = this.Id;
+            db.State = (int) this.TaskProgress;
+            db.Type = (int) this.TaskType;
+            db.LastUpdateTime = new DateTime();
+            TaskDB = db;
+            TaskManager._instance.taskController.AddTaskDB(db);
+        }
+        // 如果已经有了 就更新
+        else
+        {
+            TaskDB.State = (int) this.TaskProgress;
+            TaskManager._instance.taskController.UpdateTaskDB(TaskDB);
+        }
+        
+    }
 
     public int Id
     {
